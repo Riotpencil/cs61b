@@ -1,11 +1,14 @@
 package game2048;
 
 import java.util.Formatter;
+import java.util.Objects;
 import java.util.Observable;
+
+import java.util.function.Predicate;
 
 
 /** The state of a game of 2048.
- *  @author TODO: YOUR NAME HERE
+ *  @author liqy
  */
 public class Model extends Observable {
     /** Current contents of the board. */
@@ -113,6 +116,32 @@ public class Model extends Observable {
         // TODO: Modify this.board (and perhaps this.score) to account
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
+        board.setViewingPerspective(side);
+        for (int i = 0; i< board.size(); i++) {
+            int lastMergeRow = -1;
+            for (int j = board.size() - 2; j >= 0; j--) {
+                int m = j;
+                Tile tile = board.tile(i, j);
+                if (tile == null) {
+                    continue;
+                }
+                while (m < board.size() - 1 && board.tile(i, m + 1) == null) {
+                    m++;
+                }
+                if (m < board.size() - 1
+                        && board.tile(i, j).value() == board.tile(i, m + 1).value()
+                        && lastMergeRow != m + 1) {
+                    score += board.tile(i, j).value() * 2;
+                    board.move(i, m + 1, board.tile(i, j));
+                    lastMergeRow = m + 1;
+                    changed = true;
+                } else if (m != j) {
+                    board.move(i, m, tile);
+                    changed = true;
+                }
+            }
+        }
+        board.setViewingPerspective(Side.NORTH);
 
         checkGameOver();
         if (changed) {
@@ -138,8 +167,32 @@ public class Model extends Observable {
      * */
     public static boolean emptySpaceExists(Board b) {
         // TODO: Fill in this function.
-        return false;
+//        int N = b.size();
+//        for (int i = 0; i < N; i++) {
+//            for (int j = 0; j < N; j++) {
+//                if (b.tile(i, j) == null) {
+//                    return true;
+//                }
+//            }
+//        }
+//        return false;
+        return TileUtiles.some(Objects::isNull, b);
     }
+
+    private static class TileUtiles {
+        static boolean some(Predicate<Tile> t, Board b) {
+            int N = b.size();
+            for (int i = 0; i < N; i++) {
+                for (int j = 0; j < N; j++) {
+                    if (t.test(b.tile(i, j))) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+    }
+    // return TileUtiles.some(Obiects::isNull, b);
 
     /**
      * Returns true if any tile is equal to the maximum valid value.
@@ -148,7 +201,7 @@ public class Model extends Observable {
      */
     public static boolean maxTileExists(Board b) {
         // TODO: Fill in this function.
-        return false;
+        return TileUtiles.some(t -> t != null && t.value() == MAX_PIECE, b);
     }
 
     /**
@@ -159,8 +212,34 @@ public class Model extends Observable {
      */
     public static boolean atLeastOneMoveExists(Board b) {
         // TODO: Fill in this function.
-        return false;
+        int N = b.size();
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (b.tile(i, j) == null) {
+                    return true;
+                }
+                if (i < N - 1
+                        && b.tile(i + 1, j) != null
+                        && b.tile(i, j).value() == b.tile(i + 1, j).value()) {
+                    return true;
+                }
+                if (j < N - 1
+                        && b.tile(i, j + 1) != null
+                        && b.tile(i, j).value() == b.tile(i, j + 1).value()) {
+                    return true;
+                }
+            }
+        }
+        return emptySpaceExists(b);
     }
+//    public static boolean atLeastOneMoveExists(Board b) {
+//        // TODO: Fill in this function.
+//        Predicate<Tile> haveadjacent = (Tile t) -> {
+//            Tile tile = (Tile) t;
+//            return tile != null && tile.value() == MAX_PIECE;
+//        };
+//    }
+
 
 
     @Override
