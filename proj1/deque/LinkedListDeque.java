@@ -44,10 +44,8 @@ public class LinkedListDeque<T> implements Deque<T> {
         return size;
     }
 
-    public boolean isEmpty() {
-        return size == 0;
-    }
 
+    @Override
     public void printDeque() {
         Node p = sentinel.next;
         while (p != sentinel) {
@@ -103,7 +101,6 @@ public class LinkedListDeque<T> implements Deque<T> {
         return getRecursiveHelper(p.next, index - 1);
     }
 
-    @Override
     public boolean equals(Object o) {
         if (o == null) {
             return false;
