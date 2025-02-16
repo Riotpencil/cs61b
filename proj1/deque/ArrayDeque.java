@@ -107,7 +107,7 @@ public class ArrayDeque<T> implements Deque<T> {
         return true;
     }
 
-     public void printDeque() {
+    public void printDeque() {
         for (int i = 0; i < size(); i++) {
             System.out.print(get(i) + " ");
         }
