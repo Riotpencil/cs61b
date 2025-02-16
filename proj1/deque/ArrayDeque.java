@@ -1,6 +1,6 @@
 package deque;
 
-import java.util.Iterator;
+//import java.util.Iterator;
 
 public class ArrayDeque<T> implements Deque<T> {
     private T[] items = (T[]) new Object[8];;
@@ -8,10 +8,10 @@ public class ArrayDeque<T> implements Deque<T> {
     private int nextFirst;
     private int nextLast;
 
-    public Iterator<T> iterator() {
-        return null;
-        //return new ArrayDequeIterator();
-    }
+//    public Iterator<T> iterator() {
+//        return null;
+//        //return new ArrayDequeIterator();
+//    }
 
 
     public ArrayDeque() {
@@ -66,7 +66,7 @@ public class ArrayDeque<T> implements Deque<T> {
     public T removeLast() {
         size -= 1;
         T r = items[nextLast - 1];
-        nextLast -=1;
+        nextLast -= 1;
         shrink();
         return r;
     }
