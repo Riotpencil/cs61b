@@ -5,7 +5,7 @@ public class LinkedListDeque<T> implements Deque<T> {
         private Node prev;
         private Node next;
         private T item;
-        public Node(Node p, Node n, T i) {
+        Node(Node p, Node n, T i) {
             prev = p;
             next = n;
             item = i;
@@ -45,7 +45,6 @@ public class LinkedListDeque<T> implements Deque<T> {
     }
 
 
-    @Override
     public void printDeque() {
         Node p = sentinel.next;
         while (p != sentinel) {
