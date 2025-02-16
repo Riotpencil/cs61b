@@ -1,6 +1,8 @@
 package gh2;
 
-import edu.princeton.cs.algs4.StdAudio;
+//import edu.princeton.cs.algs4.StdAudio;
+
+import edu.princeton.cs.introcs.StdAudio;
 
 import javax.sound.midi.*;
 import java.io.File;

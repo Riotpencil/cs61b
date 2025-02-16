@@ -1,6 +1,7 @@
 package timingtest;
 
-import edu.princeton.cs.algs4.Stopwatch;
+//import edu.princeton.cs.algs4.Stopwatch;
+//import Stopwatch;
 
 /**
  * Created by hug.
