@@ -70,7 +70,7 @@ public class LinkedListDeque<T> implements Deque<T> {
         if (isEmpty()) {
             return null;
         }
-        T item = sentinel.next.item;
+        T item = sentinel.prev.item;
         sentinel.prev.prev.next = sentinel;
         sentinel.prev = sentinel.prev.prev;
         size -= 1;
